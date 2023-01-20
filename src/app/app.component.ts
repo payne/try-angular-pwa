@@ -16,6 +16,7 @@ export class AppComponent implements OnInit {
   modalVersion: boolean;
   modalPwaEvent: any;
   modalPwaPlatform: string|undefined;
+  newCount = 0;
 
   constructor(private platform: Platform,
               private appRef: ApplicationRef,
@@ -75,6 +76,27 @@ export class AppComponent implements OnInit {
      */
 
     this.loadModalPwa();
+    const data  = JSON.parse(this.getData());
+    console.log(`data:`);
+    console.log(data);
+    const {count} = data;
+    console.log(`count=${count}`);
+    this.newCount = count + 1;
+    const somedata = { name: 'John', age: 30, city: 'New York', count: this.newCount };
+    this.setData(somedata);
+  }
+
+  setData(data: any) {
+    const jsonData = JSON.stringify(data)
+    localStorage.setItem('myData', jsonData)
+  }
+
+  getData(): any {
+    return localStorage.getItem('myData')
+  }
+
+  removeData(key: string) {
+    localStorage.removeItem(key)
   }
 
   private updateOnlineStatus(): void {
